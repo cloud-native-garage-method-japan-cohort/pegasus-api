@@ -40,7 +40,7 @@ const runQuery = async (categoryLabel, searchStr) => {
 
 const exec = async () => {
   try {
-    const responseText = await runQuery('/health and fitness/disease', 'コロナ 症状');
+    const responseText = await runQuery('/business and industrial/business software', 'クラウド');
 
     console.log(responseText);
   } catch (err) {
