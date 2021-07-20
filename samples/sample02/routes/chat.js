@@ -90,7 +90,7 @@ router.post('/message', async (req, res) => {
 
     let responseText;
     if (chatResponse.result.output.generic[0].text === 'app-discovery-disease') {
-      responseText = await runQuery('/health and fitness/disease', req.body.message);
+      responseText = await runQuery('/business and industrial/business software', req.body.message);
     } else if (chatResponse.result.output.generic[0].text === 'app-discovery-drink') {
       responseText = await runQuery('/food and drink/beverages/alcoholic beverages/cocktails and beer', req.body.message);
     } else {

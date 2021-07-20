@@ -8,7 +8,7 @@ describe('POST /discovery/search', () => {
     const res = await request(app)
         .post('/discovery/search')
         .send({
-          searchText: 'コロナ',
+          searchText: 'クラウド',
         });
 
     res.status.should.equal(200);
