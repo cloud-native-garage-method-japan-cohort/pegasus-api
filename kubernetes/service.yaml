@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: team-pegasus-api
+    app.kubernetes.io/instance: team-pegasus-api
+    app.kubernetes.io/name: team-pegasus-api
+  name: team-pegasus-api
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: team-pegasus-api
+    app.kubernetes.io/name: team-pegasus-api
+  sessionAffinity: None
+  type: ClusterIP

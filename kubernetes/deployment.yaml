@@ -1,21 +1,66 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dev-bootcamp-be
+  annotations:
+    app.openshift.io/vcs-ref: f7580aa1eb6f7176705176e201ecff4de93edafb
+    app.openshift.io/vcs-uri: https://github.com/cloud-native-garage-method-japan-cohort/pegasus-api
   labels:
-    app: dev-bootcamp-be
+    app: team-pegasus-api
+    app.kubernetes.io/instance: team-pegasus-api
+    app.kubernetes.io/name: team-pegasus-api
+    app.openshift.io/runtime: js
+  name: team-pegasus-api
 spec:
+  progressDeadlineSeconds: 600
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: dev-bootcamp-be
+      app.kubernetes.io/instance: team-pegasus-api
+      app.kubernetes.io/name: team-pegasus-api
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: dev-bootcamp-be
+        app.kubernetes.io/instance: team-pegasus-api
+        app.kubernetes.io/name: team-pegasus-api
     spec:
       containers:
-        - name: dev-bootcamp-be
-          image: dev-bootcamp-be
+        - env:
+            - name: INGRESS_HOST
+            - name: PROTOCOLS
+            - name: LOG_LEVEL
+              value: debug
+          image: quay.io/andreask/express-sample-app
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: team-pegasus-api
           ports:
             - containerPort: 3000
+              name: http
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
