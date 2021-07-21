@@ -40,15 +40,17 @@ const runQuery = async (categoryLabel, searchStr) => {
   const results = queryResponse.result.results;
   console.log(JSON.stringify(results, null, '\t'));
   if (queryResponse.result.results && queryResponse.result.results.length > 0) {
-    return queryResponse.result.results[0].highlight.text[0]
-        .replace(/<em>/g, '')
-        .replace(/<\/em>/g, '');
-
-    // const textArray = queryResponse.result.results[0].highlight.text
-    // const filtered = textArray.map((text) => {
-    //   return text.replace(/<em>/g, '').replace(/<\/em>/g, '');
-    // });
-    // return filtered;
+    const resultArray = queryResponse.result.results
+    // const textArray = resultArray[0].highlight.text
+    let alltext = [];
+    for (let r of resultArray) {
+      const textArray = r.highlight.text;
+      const filtered = textArray.map((text) => {
+        return text.replace(/<em>/g, '').replace(/<\/em>/g, '');
+      });
+      alltext.push(filtered);
+    }
+    return alltext;
   } else {
     return '該当する情報が見つかりませんでした。';
   }
